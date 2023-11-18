@@ -10,7 +10,7 @@ version: "3.8"
 
 services:
     morphocraft-django:
-      image: "morphocraft-django:1.1"
+      image: "ne-jenkins-blueocean"
       network_mode: "bridge"
       volumes:
         - "/home/student75/github/3103-e-Commerce-Project-1:/home/env"
