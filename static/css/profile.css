@@ -1,0 +1,12 @@
+/* Align textboxes to one side */
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Adjust the button alignment */
+.btn-primary {
+    display: block;
+    margin: 0 auto;
+    width: 150px; /* Adjust the width as needed */
+}

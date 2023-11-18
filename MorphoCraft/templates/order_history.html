@@ -1,0 +1,46 @@
+<!-- order_history.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Order History{% endblock %}
+
+{% block content %}
+    <div class="container pt-5 pb-5 my-5 border">
+        <h1>Order History</h1>
+        <div class="order-history">
+            {% if completed_orders %}
+                <div class="order">
+                    <div class = "box-element">
+                        <div class="cart-row">
+                            <div style="flex:2"></div>
+                            <div style="flex:2"><strong>Item</strong></div>
+                            <div style="flex:1"><strong>Price</strong></div>
+                            <div style="flex:1"><strong>Quantity</strong></div>
+                            <div style="flex:1"><strong>Total</strong></div>
+                        </div>
+
+                        {% for order in completed_orders %}
+                            <h3>Order #{{ order.id }}</h3>
+                            <p>Order Date: {{ order.date_ordered }}</p>
+                            <p>Total Amount: ${{ order.get_cart_total|floatformat:2 }}</p>
+                            {% for item in order.orderitem_set.all %}
+                                <div class="cart-row">
+                                    <div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}"></div>
+                                    <div style="flex:2"><p>{{ item.product.name }}</p></div>
+                                    <div style="flex:1"><p>${{ item.product.price|floatformat:2 }}</p></div>
+                                    <div style="flex:1">
+                                        <p class="quantity">{{ item.quantity }}</p>
+                                    </div>
+                                    <div style="flex:1"><p>${{ item.get_total }}</p></div>
+                                    <a href="{% url 'public:submit_review' item.product.id %}">Leave a Review</a>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <p>No order history found.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

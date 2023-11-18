@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}MorphoCraft Contact{% endblock %}
+{% block content %}
+    <!-- Register -->
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/account.css' %}">
+        <!-- Other head content -->
+    </head>
+
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <div class="mb-md-5 mt-md-4 pb-5">
+                                <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
+                                <p class="text-white-50 mb-5">Fill in the details to create an account!</p>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="form-outline form-white mb-4">
+                                        <input type="text" id="typeUsername" class="form-control form-control-lg"
+                                            name="{{ form.username.name }}"/>
+                                        <label class="form-label" for="typeUsername">Username</label>
+                                        {% if form.username.errors %}
+                                            <div class="alert alert-danger">
+                                                {{ form.username.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-outline form-white mb-4">
+                                        <input type="email" id="typeEmail" class="form-control form-control-lg"
+                                            name="{{ form.email.name }}"/>
+                                        <label class="form-label" for="typeEmail">Email</label>
+                                        {% if form.email.errors %}
+                                            <div class="alert alert-danger">
+                                                {{ form.email.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-outline form-white mb-4">
+                                        <input type="password" id="typePassword1" class="form-control form-control-lg"
+                                            name="{{ form.password1.name }}" />
+                                        <label class="form-label" for="typePassword1">Password</label>
+                                        {% if form.password1.errors %}
+                                            <div class="alert alert-danger">
+                                                {{ form.password1.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-outline form-white mb-4">
+                                        <input type="password" id="typePassword2" class="form-control form-control-lg"
+                                            name="{{ form.password2.name }}" />
+                                        <label class="form-label" for="typePassword2">Confirm Password</label>
+                                        {% if form.password2.errors %}
+                                            <div class="alert alert-danger">
+                                                {{ form.password2.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <input type="hidden" id="recaptchaResponse" name="recaptchaResponse">
+                                    <button class="btn btn-outline-light btn-lg px-5" type="submit">Register</button>
+                                </form>
+                                <script src="https://www.google.com/recaptcha/api.js?render=6LeKbeMoAAAAAE30GdEdU2AG6VediI-ahycMKoH9"></script>
+                                <script>
+                                    grecaptcha.ready(function() {
+                                        grecaptcha.execute('6LeKbeMoAAAAAE30GdEdU2AG6VediI-ahycMKoH9', {action: 'submit'}).then(function(token) {
+                                            document.getElementById('recaptchaResponse').value = token;
+                                        });
+                                    });
+                                </script>
+                            </div>
+                            <div>
+                                <p class="mb-0">Already have an account? <a href="{% url 'public:login' %}" class="text-white-50 fw-bold">Log In</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Product Management{% endblock %}
+{% block content %}
+
+    <h1>Product Management</h1>
+    <hr>
+
+    <!-- Add a button to create a new product -->
+    <a style="float: right; margin:5px" class="btn btn-success" href="{% url 'public:product_creation' %}">Add Product</a>
+    <br>
+    <br>
+
+    <!-- Display messages -->
+    {% if messages %}
+        <div class="alert alert-success">
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Collapsible product list -->
+    <div class="box-element">
+        <h2>Product List</h2>
+        <div style="max-height: 400px; overflow-y: auto;">
+            {% for product in products %}
+                <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#product{{ product.id }}Collapse">
+                    {{ product.name }}
+                </button>
+                <div id="product{{ product.id }}Collapse" class="collapse">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Type</th>
+                                <th>Image</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <form method="post" action="{% url 'public:update_product' product.id %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <td><input type="text" name="name" value="{{ product.name }}"></td>
+                                    <td><input type="text" name="description" value="{{ product.description }}"></td>
+                                    <td><input type="text" name="price" value="{{ product.price }}"></td>
+                                    <td><input type="text" name="type" value="{{ product.type }}"></td>
+                                    <td>
+                                        {{ product.image.url }}
+                                        <input type="file" name="new_image">
+                                    </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>Top Color</th>
+                                <th>Bottom Color</th>
+                                <th>Length</th>
+                                <th>Width</th>
+                                <th>Height</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" name="top_color" value="{{ product.top_color }}"></td>
+                                <td><input type="text" name="bottom_color" value="{{ product.bottom_color }}"></td>
+                                <td><input type="text" name="length" value="{{ product.length }}"></td>
+                                <td><input type="text" name="width" value="{{ product.width }}"></td>
+                                <td><input type="text" name="height" value="{{ product.height }}"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                </td>
+                            </form>
+                            <td>
+                                <form method="post" action="{% url 'public:delete_product' product.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            {% empty %}
+                <p>No products available.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

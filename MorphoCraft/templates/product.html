@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Product{% endblock %}
+{% block content %}
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/product.css' %}">
+        <!-- Other head content -->
+    </head>
+
+        <!-- Display Products -->
+    <div class="container">
+        <h1 class="text-center my-5">Select A Type Of Product</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="product-container">
+                    <img class="product-image" src="{% static 'images/grey_black_table.png' %}" alt="Table Image">
+                    <div class="product-details">
+                        <h2>Table</h2>
+                        <p>Explore our selection of stylish tables for your home.</p>
+                        <a href="{% url 'public:table' %}" class="btn btn-primary">Buy Table</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="product-container">
+                    <img class="product-image" src="{% static 'images/grey_black_chair.png' %}" alt="Chair Image">
+                    <div class="product-details">
+                        <h2>Chair</h2>
+                        <p>Discover comfortable and elegant chairs for your space.</p>
+                        <a href="{% url 'public:chair' %}" class="btn btn-primary">Buy Chair</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+{% endblock %}

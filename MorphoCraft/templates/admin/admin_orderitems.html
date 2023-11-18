@@ -1,0 +1,79 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block title %}Admin Home Page{% endblock %}
+
+{% block content %}
+    {% if action_message != None %}
+        {{ action_message }}
+    {% endif %}
+
+    <div class="mt-3 ml-3">
+        Admin Action:
+        <select class="actions" aria-label="action" name="actions" id="actions">
+            <option value="search">Search</option>
+            <option value="delete">Delete</option>
+        </select>
+    </div>
+    
+    <div class="action" id="search">
+        <div class="mt-3 ml-3">
+            <form action="/admin/orderitems/action=search" method="post">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <div class="col-xs-1 ml-3">
+                        <label for="{{ orderitem_search_form.product.id_for_label }}">Product: </label>
+                        {{ orderitem_search_form.product }}
+                        <button class="btn btn-success btn-sm mb-1" type="submit" name="action" value="search">Search</button>
+                    </div>
+                </div>
+                <small class="form-text text-muted" style="margin-top:-10px;">Leave blank to list all</small>
+            </form>
+        </div>
+    </div>
+            
+    
+    <div class="action hidden" id="delete">
+        <div class="mt-3 ml-3">
+            <form action="/admin/orderitems/action=delete" method="post">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <div class="col-xs-1 ml-3">
+                        <label for="{{ orderitem_delete_form.id.id_for_label }}">Order Item ID:</label>
+                        {{ orderitem_delete_form.id }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-danger" type="submit" name="action" value="delete">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="col-md-10">
+        <div>
+            <h1 class="display-4">Order Items</h1>  
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Order Item ID</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orderitem in orderitem_list %}
+                    <tr>
+                        <td scope="row">{{ orderitem.id }}</td>
+                        <td>{{ orderitem.date_added }}</td>
+                        <td>{{ orderitem.order_id }}</td>
+                        <td>{{ orderitem.product }}</td>
+                        <td>{{ orderitem.quantity }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

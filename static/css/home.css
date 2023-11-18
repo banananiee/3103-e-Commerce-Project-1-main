@@ -1,0 +1,16 @@
+.custom-carousel {
+    background-color: lightgrey;
+}
+
+/* Center the images within the carousel items */
+.carousel-inner .carousel-item {
+    text-align: center;
+}
+
+/* Set a maximum size for the images */
+.carousel-inner .carousel-item img {
+    max-width: 100%;
+    max-height: 100%;
+    display: inline-block;
+    /* Ensure the image behaves correctly */
+}

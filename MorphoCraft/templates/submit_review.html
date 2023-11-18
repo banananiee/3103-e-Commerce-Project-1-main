@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Product{% endblock %}
+{% block content %}
+<div class="box-element" id="form-wrapper">
+    <h2>Review</h2> 
+    <hr>
+    <div class="row">
+        <div class="col-sm-6">
+            <img src="{{ product.imageURL }}" alt="{{ product.name }}" width="400">
+        </div>
+        <div class="col-sm-6">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.text.id_for_label }}">Review Text:</label>
+                    <br>
+                    {{ form.text }}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

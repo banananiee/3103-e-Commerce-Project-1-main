@@ -1,0 +1,13 @@
+{% autoescape off %}
+Hi {{ user.username }},
+
+Please click the link below to confirm your registration:
+
+https://{{ domain }}/activate/{{ uid }}/{{ token }}
+
+
+If you didn't register at Morphocraft, please ignore this email.
+
+Best,
+The Morphocraft Team
+{% endautoescape %}

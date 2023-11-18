@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Update Profile{% endblock %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+    <!-- Other head content -->
+</head>
+
+    <!-- Update Profile -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-element">
+                <h1 class="mb-4">Update Profile</h1>
+
+                        <!-- Display messages -->
+        {% if messages %}
+        <div class="alert alert-success">
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="mb-4">User Information</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>Username:</strong> {{ profile_form.username }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Email:</strong> {{ profile_form.email }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>First Name:</strong> {{ profile_form.first_name }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Last Name:</strong> {{ profile_form.last_name }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="mb-4">Shipping Address</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>Address:</strong> {{ shipping_address_form.address }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Unit Number:</strong> {{ shipping_address_form.unit_number }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Zipcode:</strong> {{ shipping_address_form.zipcode }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-right mt-4">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    jQuery.noConflict();
+</script>
+
+{% endblock %}

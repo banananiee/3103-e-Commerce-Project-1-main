@@ -1,0 +1,123 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block title %}Admin Home Page{% endblock %}
+
+{% block content %}
+    {% if action_message != None %}
+        {{ action_message }}
+    {% endif %}
+
+    <div class="mt-3 ml-3">
+        Admin Action:
+        <select class="actions" aria-label="action" name="actions" id="actions">
+            <option value="search">Search</option>
+            <option value="update">Update</option>
+            <option value="delete">Delete</option>
+        </select>
+    </div>
+
+    <div class="action" id="search">
+        <div class="mt-3 ml-3">
+            <form action="/admin/users/action=search" method="post">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <div class="col-xs-1 ml-3">
+                        <label for="{{ user_search_form.username.id_for_label }}">Username: </label>
+                        {{ user_search_form.username }}
+                        <button class="btn btn-success btn-sm mb-1" type="submit" name="action" value="search">Search</button>
+                        <small class="form-text text-muted" style="margin-top: 0px;">Leave blank to list all</small>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+            
+
+    <div class="action hidden" id="update">
+        <div class="mt-3 ml-3">
+            <form action="/admin/users/action=update" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group row mb-0">
+                    <div class="col-md-2 ml-3 mr-3">
+                        <label for="{{ user_update_form.id.id_for_label }}">User ID to Update:</label>
+                        {{ user_update_form.id }}
+                    </div>
+                </div>
+                <div class="form-group row g-3">
+                    <div class="col-md-5 ml-3">
+                        <small class="form-text text-muted">required</small>
+                        <small class="form-text text-muted">Leave blank to not update a particular section</small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 ml-3">
+                        <label for="{{ user_update_form.username.id_for_label }}">User Name:</label>
+                        {{ user_update_form.username }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ user_update_form.email.id_for_label }}">Email:</label>
+                        {{ user_update_form.email }}
+                    </div>
+                    <div class="col-md-4 mr-3">
+                        <label for="{{ user_update_form.role.id_for_label }}">Roles</label>
+                        {{ user_update_form.role }}
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <div class="col-md-2 ml-3">
+                        <label for="{{ user_update_form.verified.id_for_label }}">Verified:</label>
+                        {{ user_update_form.verified }}
+                    </div>           
+                </div>
+                <div class="form-group ml-3">
+                    <button class="btn btn-warning" type="submit" name="action" value="update">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="action hidden" id="delete">
+        <div class="mt-3 ml-3">
+            <form action="/admin/users/action=delete" method="post">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <div class="col-xs-1 ml-3">
+                        <label for="{{ user_delete_form.id.id_for_label }}">User ID:</label>
+                        {{ user_delete_form.id }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-danger" type="submit" name="action" value="delete">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <div>
+            <h1 class="display-5">Users</h1>  
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">user_id</th>
+                    <th scope="col">username</th>
+                    <th scope="col">email</th>
+                    <th scope="col">roles</th>
+                    <th scope="col">verified</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in user_list %}
+                    <tr>
+                        <td scope="row">{{ user.id }}</td>
+                        <td>{{ user.username }}</td>   
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>{{ user.verified }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

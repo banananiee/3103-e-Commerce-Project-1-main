@@ -1,0 +1,128 @@
+/*Product page*/
+.product-container {
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.product-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.product-details {
+    margin-top: 20px;
+}
+
+/*Table and Chair page*/
+
+/* Style the form elements */
+form {
+    margin-top: 20px;
+    text-align: left;
+}
+
+form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+form select,
+form input[type="text"],
+form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Style for the "Add to Cart" button */
+.add-btn {
+    background-color: #007BFF; /* Replace with your desired color */
+    color: white; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Hover effect for the "Add to Cart" button */
+.add-btn:hover {
+    background-color: #0056b3; /* Replace with your desired hover color */
+}
+
+/* Style for the "Back" button with a different color */
+.back-btn {
+    background-color: gray; /* Replace with the desired color for the "Back" button */
+    color: white; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Hover effect for the "Back" button */
+.back-btn:hover {
+    background-color: lightgray; /* Replace with the desired hover color for the "Back" button */
+}
+
+
+/* Style the error modal */
+#errorModal .modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+#errorModal .modal-body {
+    font-size: 16px;
+    color: #333;
+}
+
+#errorModal .modal-footer {
+    justify-content: center;
+}
+
+/*Create Product page css*/
+        /* Custom CSS to align form fields */
+        .nice-form .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .nice-form .form-group label {
+            font-weight: bold;
+        }
+    
+        .nice-form .form-group input,
+        .nice-form .form-group select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 6px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    
+        .nice-form .form-row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    
+        .nice-form .form-row .form-group {
+            flex: 1;
+            margin-right: 10px; /* Adjust the margin as needed */
+        }
+    
+        .nice-form .btn-primary {
+            width: 100%;
+        }
+
+        .form-label {
+            text-align: left;
+        }

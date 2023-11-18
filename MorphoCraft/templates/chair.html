@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Product{% endblock %}
+{% block content %}
+
+    <!-- For Chairs -->
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/product.css' %}">
+    <!-- Other head content -->
+</head>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box-element">
+            <div class="product-image-container">
+                <img id="product-image" class="product-image" src="{% static 'images/no_image.png' %}">
+            </div>
+        </div>
+        <div class="box-element product">   
+            <h4>Cost : <span id="unit_price">$0</span></h4> 
+            <form method="post" id="product-form">
+                <h5>Choose your choice of variations: </h5>
+                <br>
+                {% csrf_token %}
+                <label for="{{ form.top_color.id_for_label }}">Top Color:</label>
+                {{ form.top_color }}
+                <br>
+                <label for="{{ form.bottom_color.id_for_label }}">Bottom Color:</label>
+                {{ form.bottom_color }}
+                <br>
+                <label for="{{ form.height.id_for_label }}">Height:</label>
+                {{ form.height }}
+                <br>
+                <label for="{{ form.width.id_for_label }}">Width:</label>
+                {{ form.width }}
+                <br>
+                <label for="{{ form.length.id_for_label }}">Length:</label>
+                {{ form.length }}
+                <br>
+                <a href="{% url 'public:product' %}" class="btn btn-outline-secondary add-btn back-btn">Back</a>
+                <button data-product="" data-action="add" type="button" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                No such combination exists.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("product-form");
+        const image = document.getElementById("product-image");
+        const totalCostElement = document.getElementById("unit_price");
+        const addToCartButton = document.querySelector(".add-btn.update-cart");
+        const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+
+        if (form && image) {
+            form.addEventListener("change", function() {
+                // Get the selected options
+                const topColor = form.top_color.value;
+                const bottomColor = form.bottom_color.value;
+                const height = form.height.value;
+                const width = form.width.value;
+                const length = form.length.value;
+                const selectedType = 'chair';
+
+                // Send an AJAX request to retrieve both the image URL and total cost from the server
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", `/get_data/?top_color=${topColor}&bottom_color=${bottomColor}&height=${height}&width=${width}&length=${length}&type=${selectedType}`, true);
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.image_url) {
+                                // Set the image source
+                                image.src = response.image_url;
+                            } else {
+                                // No image URL found, set a placeholder image
+                                image.src = "{% static 'images/no_image.png' %}";
+                                // Show the error modal
+                                errorModal.show();
+                            }
+                            if (response.unit_price) {
+                                // Set the total cost
+                                totalCostElement.innerText = `$${response.unit_price}`;
+                                // Extract the product ID from the response and set it in the button's data-product attribute
+                                const productId = response.product_id;
+                                addToCartButton.setAttribute("data-product", productId);
+                            }
+                        } else if (xhr.status === 404) {
+                            // Handle the 404 error here
+                            // Display a custom error message
+                            errorModal.show();
+                        }
+                    }
+                };
+                xhr.send();
+            });
+        }
+    });
+</script>
+
+{% endblock %}

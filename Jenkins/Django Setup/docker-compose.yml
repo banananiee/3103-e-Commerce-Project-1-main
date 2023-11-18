@@ -1,0 +1,21 @@
+# Equivalent to:
+# sudo docker run \
+# --volume /home/student75/github/3103-e-Commerce-Project-1:/home/env \
+# -e VIRTUAL_HOST=gracious-poincare.cloud \
+# -e VIRTUAL_PORT=80 \
+# morphocraft-django:1.1
+
+# WARNING: THIS SHOULD NOT BE IN THE PIPELINE. I mean, there's no docker-compose agent support for Jenkins Pipeline
+version: "3.8"
+
+services:
+    morphocraft-django:
+      image: "morphocraft-django:1.1"
+      network_mode: "bridge"
+      volumes:
+        - "/home/student75/github/3103-e-Commerce-Project-1:/home/env"
+      environment:
+        VIRTUAL_HOST: gracious-poincare.cloud
+        VIRTUAL_PORT: 80
+
+# Just run sudo docker docker compose up -d

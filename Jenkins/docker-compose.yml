@@ -1,0 +1,33 @@
+# Equivalent to:
+# sudo docker run --name jenkins-blueocean --rm --detach \
+# --user root \
+# -e JENKINS_OPTS="--httpPort=8443" \
+# -e VIRTUAL_HOST=jenkins.gracious-poincare.cloud \
+# -e VIRTUAL_PORT=8443 \
+# --volume /var/run/docker.sock:/var/run/docker.sock \
+# --volume jenkins-data:/var/jenkins_home \
+# --volume "$HOME":/home \
+# --publish 8443:8443 myjenkins-blueocean:2.414.3-1
+
+version: "3.8"
+
+services:
+  jenkins-blueocean:
+    container_name: jenkins-blueocean
+    image: "myjenkins-blueocean:2.414.3-1"
+    user: root
+    network_mode: "bridge"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins-data:/var/jenkins_home
+      - ${HOME}:/home
+    environment:
+      JENKINS_OPTS: "--httpPort=8443"
+      VIRTUAL_HOST: jenkins.gracious-poincare.cloud
+      VIRTUAL_PORT: 8443
+
+volumes:
+  jenkins-data:
+    external: true
+
+# Just run sudo docker compose up -d

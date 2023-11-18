@@ -1,0 +1,24 @@
+# Equivalent to:
+# sudo docker run \
+#   -d \
+#   --rm \
+#   -p 80:80 \
+#   -p 443:443 \
+#   -v /var/run/docker.sock:/tmp/docker.sock:ro \
+#   -v /home/student75/certs:/etc/nginx/certs \
+#   jwilder/nginx-proxy
+
+version: "3.8"
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    network_mode: "bridge"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /home/student75/certs:/etc/nginx/certs
+
+# Just run sudo docker compose up -d

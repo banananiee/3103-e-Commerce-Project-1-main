@@ -1,0 +1,6 @@
+db.sqlite3
+.env
+*.pyc 
+# For the devs who running their local test
+.coverage
+reports/*

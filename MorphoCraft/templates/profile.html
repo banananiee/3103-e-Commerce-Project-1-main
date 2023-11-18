@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Profile{% endblock %}
+
+{% block content %}
+
+    <!-- Profile -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-element">
+                <h1 class="mb-4">Your Profile</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 class="mb-4">User Information</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>Username:</strong> {{ user.username }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Email:</strong> {{ user.email }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>First Name:</strong> {{ user.first_name }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Last Name:</strong> {{ user.last_name }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="mb-4">Shipping Address</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>Address:</strong> {{ shipping_address.address }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Unit Number:</strong> {{ shipping_address.unit_number }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Zipcode:</strong> {{ shipping_address.zipcode }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-right mt-4">
+                    <a class="btn btn-success" href="{% url 'public:update_profile' user.username %}">Edit Profile</a>
+                    <a class="btn btn-warning ml-2" href="{% url 'public:change_password' user.username %}">Change Password</a>
+                    <button type="button" class="btn btn-danger ml-2" data-toggle="modal" data-target="#confirmDelete">Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete your account? This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a href="{% url 'public:delete_account' %}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    jQuery.noConflict();
+</script>
+    
+{% endblock %}

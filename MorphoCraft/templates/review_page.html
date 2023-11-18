@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Product Reviews{% endblock %}
+
+{% block content %}
+    <h1>Product Reviews</h1>
+
+    <!-- Dropdown for selecting a product -->
+    <div class="row">
+        <div class="col-sm-3 mr-auto">
+            <select name="product" id="product-dropdown">
+                <option value="">Select a product</option>
+                {% for product in products %}
+                    <option value="{{ product.id }}" data-image="{{ product.imageURL }}">{{ product.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-3 ml-auto">
+            <!-- Search bar to filter reviews -->
+            <input type="text" id="review-search" placeholder="Search reviews...">
+        </div>
+    </div>
+    <div class="row">
+        <div class="product-image-container">
+            <img class="product-image" src="" alt="Product Image" id="product-image" width="200">
+        </div>
+        
+        <!-- Container for displaying reviews -->
+        <div class="reviews-box">
+            <div id="reviews-container">
+                <!-- Reviews will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Your JavaScript for filtering reviews goes here -->
+    <script>
+        const productDropdown = document.getElementById('product-dropdown');
+        const reviewsContainer = document.getElementById('reviews-container');
+        const productImage = document.getElementById('product-image');
+
+        productDropdown.addEventListener('change', function () {
+            const selectedProductId = this.value;
+            const selectedOption = this.options[this.selectedIndex];
+            const imageURL = selectedOption.getAttribute('data-image');
+            productImage.src = imageURL;
+
+            if (selectedProductId) {
+                fetch(`/get_reviews?product_id=${selectedProductId}`)
+                    .then(response => response.json())
+                    .then(reviews => {
+                        reviewsContainer.innerHTML = ''; // Clear previous reviews
+                        if (reviews.length === 0) {
+                            reviewsContainer.innerHTML = 'No reviews available for this product.';
+                        } else {
+                            reviews.forEach(review => {
+                                const reviewDiv = document.createElement('div');
+                                reviewDiv.className = 'review-container';
+
+                                const reviewText = document.createElement('p');
+                                reviewText.className = 'review';
+                                reviewText.innerHTML = `<strong>${review.author} said:</strong> ${review.text}`;
+
+                                const separator = document.createElement('hr');
+
+                                reviewDiv.appendChild(reviewText);
+                                reviewDiv.appendChild(separator);
+
+                                reviewsContainer.appendChild(reviewDiv);
+                            });
+                        }
+                    });
+            } else {
+                reviewsContainer.innerHTML = ''; // Clear the reviews if no product is selected
+            }
+        });
+
+        document.getElementById('review-search').addEventListener('keyup', function() {
+            const searchQuery = this.value.toLowerCase();
+            const reviewContainers = document.querySelectorAll('.review-container');
+
+            reviewContainers.forEach(function(container) {
+                const review = container.querySelector('.review');
+                const text = review.textContent.toLowerCase();
+
+                if (text.includes(searchQuery)) {
+                    container.style.display = 'block';
+                } else {
+                    container.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</div>
+{% endblock %}

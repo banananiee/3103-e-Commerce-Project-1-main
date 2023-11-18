@@ -1,0 +1,97 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block title %}Admin Home Page{% endblock %}
+
+{% block content %}
+    {% if action_message != None %}
+        {{ action_message }}
+    {% endif %}
+
+    <div class="mt-3 ml-3">
+        Admin Action:
+        <select class="actions" aria-label="action" name="actions" id="actions">
+            <option value="search">Search</option>
+            <option value="update">Update</option>
+        </select>
+    </div>
+
+    <div class="action" id="search">
+        <div class="mt-3 ml-3">
+            <form action="/admin/shipping/action=search" method="post">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <div class="col-xs-1 ml-3">
+                        <label for="{{ shipping_search_form.user.id_for_label }}">Username: </label>
+                        {{ shipping_search_form.user }}
+                        <button class="btn btn-success btn-sm mb-1" type="submit" name="action" value="search">Search</button>
+                        <small class="form-text text-muted" style="margin-top: 0px;">Leave blank to list all</small>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+            
+    <div class="action hidden" id="update">
+        <div class="mt-3 ml-3">
+            <form action="/admin/shipping/action=update" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <div class="col-xs-1 ml-3">
+                        <label for="{{ shipping_update_form.id.id_for_label }}">Shipping ID to Update:</label>
+                        {{ shipping_update_form.id }}
+                        <small class="form-text text-muted">required</small>
+                    </div>         
+                </div>
+                <div class="form-group ml-3 mr-5">
+                    <label for="{{ shipping_update_form.address.id_for_label }}">Address:</label>
+                    {{ shipping_update_form.address }}
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 ml-3">
+                        <label for="{{ shipping_update_form.unit_number.id_for_label }}">Unit Number:</label>
+                        {{ shipping_update_form.unit_number }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ shipping_update_form.zipcode.id_for_label }}">Zipcode:</label>
+                        {{ shipping_update_form.zipcode }}
+                    </div>
+                </div>
+                <div class="form-group ml-3">
+                    <button class="btn btn-warning" type="submit" name="action" value="update">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <div>
+            <h1 class="display-5">Shipping Addresses</h1>  
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Shipping Address ID</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Unit Number</th>
+                    <th scope="col">Zipcode</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for shipping in shipping_list %}
+                    <tr>
+                        <td scope="row">{{ shipping.id }}</td>
+                        <td>{{ shipping.date_added }}</td>   
+                        <td>{{ shipping.user }}</td> 
+                        <td>{{ shipping.order_id }}</td>
+                        <td>{{ shipping.address }}</td>
+                        <td>{{ shipping.unit_number }}</td>
+                        <td>{{ shipping.zipcode }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
